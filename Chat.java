@@ -6,11 +6,7 @@ import java.io.IOException;
 
 public class Chat {
 	public static void main(String[] args) {
-		Window window = new Window();
-		try {
-			ChatServerSocket chatServerSocket = new ChatServerSocket();
-		} catch(IOException e) {
-			System.out.println(e);
-		}
-	}
+	 	Window window = new Window();
+		Client client = new Client();
+	 }
 }
