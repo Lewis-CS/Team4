@@ -1,5 +1,7 @@
 import java.awt.*;
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Window extends JFrame {
 
@@ -31,6 +33,21 @@ public class Window extends JFrame {
     panel.add(reset);
 
     JTextArea textArea = new JTextArea();
+
+    ActionListener actions = new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        String action = e.getActionCommand();
+        if (action.equals("Send")) {
+          System.out.println("Send");
+          textArea.append(textField.getText());
+          System.out.println(textField.getText());
+        };
+      }
+    };
+
+    send.addActionListener(actions);
+    send.setActionCommand("Send");
 
     frame.getContentPane().add(BorderLayout.SOUTH, panel);
     frame.getContentPane().add(BorderLayout.NORTH, menuBar);
