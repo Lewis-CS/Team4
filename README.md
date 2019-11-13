@@ -10,4 +10,5 @@ and when in the correct directory, type
 javac *.java
 
 java ChatServer
+
 java Chat
