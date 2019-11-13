@@ -32,7 +32,12 @@ public class Window extends JFrame {
     panel.add(send);
     panel.add(reset);
 
+    JPanel sidePanel = new JPanel();
+    JLabel rooms = new JLabel("Rooms:                                          ");
+    sidePanel.add(rooms);
+
     JTextArea textArea = new JTextArea();
+    textArea.setEditable(false);
 
     ActionListener actions = new ActionListener() {
       @Override
@@ -49,6 +54,7 @@ public class Window extends JFrame {
     send.addActionListener(actions);
     send.setActionCommand("Send");
 
+    frame.getContentPane().add(BorderLayout.WEST, sidePanel);
     frame.getContentPane().add(BorderLayout.SOUTH, panel);
     frame.getContentPane().add(BorderLayout.NORTH, menuBar);
     frame.getContentPane().add(BorderLayout.CENTER, textArea);
