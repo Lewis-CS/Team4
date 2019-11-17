@@ -17,7 +17,7 @@ public class ClientThread implements Runnable {
   private PrintWriter getWriter(){
     return clientOut;
   }
-  
+
   @Override
   public void run() {
     try{
@@ -30,7 +30,7 @@ public class ClientThread implements Runnable {
           String input = in.nextLine();
           // NOTE: if you want to check server can read input, uncomment next line and check server file console.
           // System.out.println(input);
-          for(ClientThread thatClient : server.getClients()){
+          for(ClientThread thatClient : server.getClients()) {
             PrintWriter thatClientOut = thatClient.getWriter();
             if(thatClientOut != null){
               thatClientOut.write(input + "\r\n");

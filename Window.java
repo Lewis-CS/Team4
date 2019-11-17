@@ -5,6 +5,8 @@ import java.awt.event.ActionListener;
 
 public class Window extends JFrame {
 
+  public String username;
+
   public Window() {
     JFrame frame = new JFrame("Chat");
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -23,17 +25,17 @@ public class Window extends JFrame {
     menu1.add(menuItem2);
 
     JPanel panel = new JPanel();
-    JLabel label = new JLabel("Enter Text: ");
+    JLabel label = new JLabel("Enter Username: ");
     JTextField textField = new JTextField(20);
     JButton send = new JButton("Send");
-    JButton reset = new JButton("Clear");
+    JButton clear = new JButton("Clear");
     panel.add(label);
     panel.add(textField);
     panel.add(send);
-    panel.add(reset);
+    panel.add(clear);
 
     JPanel sidePanel = new JPanel();
-    JLabel rooms = new JLabel("Rooms:                                          ");
+    JLabel rooms = new JLabel("Rooms:                     ");
     sidePanel.add(rooms);
 
     JTextArea textArea = new JTextArea();
@@ -44,15 +46,26 @@ public class Window extends JFrame {
       public void actionPerformed(ActionEvent e) {
         String action = e.getActionCommand();
         if (action.equals("Send")) {
-          System.out.println("Send");
-          textArea.append(textField.getText());
-          System.out.println(textField.getText());
-        };
+          if (username == null) {
+            username = textField.getText();
+            textArea.append("Hello, " + username + "!\n");
+            textField.setText("");
+            label.setText("Enter Text: ");
+          } else {
+            textArea.append(username + " > " + textField.getText() + "\n");
+            textField.setText("");
+          }
+        } else if (action.equals("Clear")) {
+          textField.setText("");
+        }
       }
     };
 
     send.addActionListener(actions);
     send.setActionCommand("Send");
+
+    clear.addActionListener(actions);
+    clear.setActionCommand("Clear");
 
     frame.getContentPane().add(BorderLayout.WEST, sidePanel);
     frame.getContentPane().add(BorderLayout.SOUTH, panel);

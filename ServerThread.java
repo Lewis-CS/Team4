@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class ServerThread implements Runnable {
 
   private Socket socket;
-  private String userName;
+  public String userName;
   private boolean isAlived;
   private final LinkedList<String> messagesToSend;
   private boolean hasMessages = false;
@@ -23,7 +23,7 @@ public class ServerThread implements Runnable {
       messagesToSend.push(message);
     }
   }
-  
+
   @Override
   public void run(){
     System.out.println("Welcome :" + userName);
