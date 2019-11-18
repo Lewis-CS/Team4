@@ -1,3 +1,4 @@
+import static javax.swing.JOptionPane.showInputDialog;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -29,14 +30,18 @@ public class Window extends JFrame {
     JTextField textField = new JTextField(20);
     JButton send = new JButton("Send");
     JButton clear = new JButton("Clear");
+    JButton addRoom = new JButton("Add Room");
     panel.add(label);
     panel.add(textField);
     panel.add(send);
     panel.add(clear);
+    panel.add(addRoom);
 
     JPanel sidePanel = new JPanel();
     JLabel rooms = new JLabel("Rooms:                     ");
+    JLabel moreRooms = new JLabel("");
     sidePanel.add(rooms);
+    sidePanel.add(moreRooms);
 
     JTextArea textArea = new JTextArea();
     textArea.setEditable(false);
@@ -57,6 +62,17 @@ public class Window extends JFrame {
           }
         } else if (action.equals("Clear")) {
           textField.setText("");
+        } else if (action.equals("Add Room")) {
+          String s = (String)JOptionPane.showInputDialog(
+            frame, 
+            "Enter Name of New Room: ", 
+            "New Room",
+            JOptionPane.PLAIN_MESSAGE
+          );
+          if ((s != null) && (s.length() > 0)) {
+            moreRooms.setText(s);
+            return;
+          }
         }
       }
     };
@@ -66,6 +82,9 @@ public class Window extends JFrame {
 
     clear.addActionListener(actions);
     clear.setActionCommand("Clear");
+
+    addRoom.addActionListener(actions);
+    addRoom.setActionCommand("Add Room");
 
     frame.getContentPane().add(BorderLayout.WEST, sidePanel);
     frame.getContentPane().add(BorderLayout.SOUTH, panel);
