@@ -3,10 +3,14 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.*; 
+import java.util.*;
 
 public class Window extends JFrame {
 
   public String username;
+  ArrayList<String> myRooms = new ArrayList<String>();
+  ArrayList<Rooms> rooms = new ArrayList<Rooms>();
 
   public Window() {
     JFrame frame = new JFrame("Chat");
@@ -70,7 +74,12 @@ public class Window extends JFrame {
             JOptionPane.PLAIN_MESSAGE
           );
           if ((s != null) && (s.length() > 0)) {
-            moreRooms.setText(s);
+            myRooms.add(s);
+            for (int j = 0; j < myRooms.size(); j++) {
+              sidePanel.add(new JLabel(myRooms.get(j)));
+              System.out.println("element " + j + ": " + myRooms.get(j) );
+            }
+
             return;
           }
         }
@@ -91,5 +100,14 @@ public class Window extends JFrame {
     frame.getContentPane().add(BorderLayout.NORTH, menuBar);
     frame.getContentPane().add(BorderLayout.CENTER, textArea);
     frame.setVisible(true);
+  }
+}
+
+class Rooms {
+
+  public Rooms() {
+    JTextArea textArea = new JTextArea();
+    textArea.setEditable(false);
+    //frame.getContentPane().add(BorderLayout.CENTER, textArea);
   }
 }
