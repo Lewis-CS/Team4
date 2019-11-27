@@ -1,51 +1,58 @@
-import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.*;
+import java.net.*;
+import java.util.*;
 
-public class ChatServer {
-  private static final int portNumber = 4444;
-  private int serverPort;
-  private List<ClientThread> clients; // or "protected static List<ClientThread> clients;"
-  public static void main(String[] args){
-    ChatServer server = new ChatServer(portNumber);
-    server.startServer();
-  }
+class ChatServer implements Runnable{
 
-  public ChatServer(int portNumber){
-    this.serverPort = portNumber;
-  }
+  Socket connectionSocket;
+  public static Vector clients = new Vector();
 
-  public List<ClientThread> getClients(){
-    return clients;
-  }
-
-  private void startServer(){
-    clients = new ArrayList<ClientThread>();
-    ServerSocket serverSocket = null;
-    try {
-      serverSocket = new ServerSocket(serverPort);
-      acceptClients(serverSocket);
-    } catch (IOException e){
-      System.err.println("Could not listen on port: "+serverPort);
-      System.exit(1);
+  public ChatServer(Socket s){
+    try{
+    	System.out.println("New client connected");
+    	connectionSocket=s;
+    } catch(Exception e) {
+      e.printStackTrace();
     }
   }
-  
-  private void acceptClients(ServerSocket serverSocket){
-    System.out.println("server starts port = " + serverSocket.getLocalSocketAddress());
-    while(true){
-      try{
-        Socket socket = serverSocket.accept();
-        System.out.println("accepts : " + socket.getRemoteSocketAddress());
-        ClientThread client = new ClientThread(this, socket);
-        Thread thread = new Thread(client);
-        thread.start();
-        clients.add(client);
-      } catch (IOException ex){
-        System.out.println("Accept failed on : "+serverPort);
+
+  public void run(){
+    try{
+
+    	BufferedReader reader =
+    		new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
+    	BufferedWriter writer=
+    		new BufferedWriter(new OutputStreamWriter(connectionSocket.getOutputStream()));
+      clients.add(writer);
+
+      while(true) {
+        String data1 = reader.readLine().trim();
+        System.out.println("Received New Message: " + data1);
+
+        for (int i = 0; i < clients.size(); i++) {
+          try {
+            BufferedWriter bw = (BufferedWriter)clients.get(i);
+            bw.write(data1);
+            bw.write("\r\n");
+            bw.flush();
+          } catch (Exception e) {
+            e.printStackTrace();
+          }
+        }
       }
+    } catch(Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  public static void main(String argv[]) throws Exception {
+    System.out.println("Threaded Chat Server is Running  " );
+    ServerSocket mysocket = new ServerSocket(4444);
+    while(true){
+      Socket sock = mysocket.accept();
+      ChatServer chatServer = new ChatServer(sock);
+      Thread serverThread = new Thread(chatServer);
+      serverThread.start();
     }
   }
 }
