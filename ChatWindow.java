@@ -42,8 +42,15 @@ public class ChatWindow implements Runnable {
 
         JPanel buttonPanel = new JPanel();
         JButton sendButton = new JButton("Send");
+        sendButton.setOpaque(true);
+        sendButton.setForeground(Color.blue);
         JButton clearButton = new JButton("Clear");
+        clearButton.setOpaque(true);
+        clearButton.setForeground(Color.red);
         JButton addRoom = new JButton("Add Room");
+        addRoom.setOpaque(true);
+        addRoom.setForeground(Color.gray);
+        
         buttonPanel.add(sendButton);
         buttonPanel.add(clearButton);
         buttonPanel.add(addRoom);
