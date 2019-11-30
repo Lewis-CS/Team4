@@ -13,7 +13,7 @@ public class ChatWindow implements Runnable {
     BufferedWriter writer;
     BufferedReader reader;
     ArrayList<String> myRooms = new ArrayList<String>();
-    ArrayList<Rooms> rooms = new ArrayList<Rooms>();
+    //ArrayList<Rooms> rooms = new ArrayList<Rooms>();
 
     public ChatWindow(String user){
         login = user;
@@ -31,10 +31,9 @@ public class ChatWindow implements Runnable {
 
         // TODO: Add side panel again
         JPanel sidePanel = new JPanel();
+        sidePanel.setLayout(new BoxLayout(sidePanel, BoxLayout.Y_AXIS));
         JLabel rooms = new JLabel("Rooms:                     ");
-        JLabel moreRooms = new JLabel("");
         sidePanel.add(rooms);
-        sidePanel.add(moreRooms);
         panel2.add(sidePanel, BorderLayout.WEST);
 
         textField = new JTextField();
@@ -104,9 +103,25 @@ public class ChatWindow implements Runnable {
 
             if ((s != null) && (s.length() > 0)) {
               myRooms.add(s);
+              sidePanel.removeAll();
+              JLabel rooms = new JLabel("Rooms:                     ");
+              sidePanel.add(rooms);
               for (int j = 0; j < myRooms.size(); j++) {
                 sidePanel.add(new JLabel(myRooms.get(j)));
+                // JButton button = new JButton(myRooms.get(j));
+                // button.setOpaque(false);
+                // button.setContentAreaFilled(false);
+                // button.setBorderPainted(false);
+                // sidePanel.add(button);
+                // button.addActionListener(new ActionListener() {
+                //   public void actionPerformed(ActionEvent ev) {
+                //     textArea.setText("");
+                //     textArea.setText("Current Room: " + s + "\n");
+                //   }
+                // });
                 System.out.println("element " + j + ": " + myRooms.get(j) );
+                textArea.setText("");
+                textArea.setText("Current Room: " + s + "\n");
               }
               return;
             }
@@ -127,12 +142,4 @@ public class ChatWindow implements Runnable {
         e.printStackTrace();
       }
     }
-}
-
-class Rooms {
-
-  public Rooms() {
-    JTextArea textArea = new JTextArea();
-    textArea.setEditable(false);
-  }
 }
