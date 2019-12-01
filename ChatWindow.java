@@ -107,18 +107,20 @@ public class ChatWindow implements Runnable {
               JLabel rooms = new JLabel("Rooms:                     ");
               sidePanel.add(rooms);
               for (int j = 0; j < myRooms.size(); j++) {
-                sidePanel.add(new JLabel(myRooms.get(j)));
-                // JButton button = new JButton(myRooms.get(j));
-                // button.setOpaque(false);
-                // button.setContentAreaFilled(false);
-                // button.setBorderPainted(false);
-                // sidePanel.add(button);
-                // button.addActionListener(new ActionListener() {
-                //   public void actionPerformed(ActionEvent ev) {
-                //     textArea.setText("");
-                //     textArea.setText("Current Room: " + s + "\n");
-                //   }
-                // });
+                final int num = j;
+                JButton button = new JButton(myRooms.get(j));
+                button.setOpaque(false);
+                button.setContentAreaFilled(false);
+                button.setBorderPainted(false);
+                sidePanel.add(button);
+                button.addActionListener(new ActionListener() {
+                  public void actionPerformed(ActionEvent ev) {
+                    textArea.setText("");
+                    String thisRoom = myRooms.get(num);
+                    textArea.setText("Current Room: " + thisRoom + "\n");
+                    System.out.println("Room " + thisRoom);
+                  }
+                });
                 System.out.println("element " + j + ": " + myRooms.get(j) );
                 textArea.setText("");
                 textArea.setText("Current Room: " + s + "\n");
