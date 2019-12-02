@@ -49,7 +49,7 @@ public class ChatWindow implements Runnable {
         JButton addRoom = new JButton("Add Room");
         addRoom.setOpaque(true);
         addRoom.setForeground(Color.gray);
-        
+
         buttonPanel.add(sendButton);
         buttonPanel.add(clearButton);
         buttonPanel.add(addRoom);
@@ -57,8 +57,23 @@ public class ChatWindow implements Runnable {
 
         textArea = new JTextArea();
         textArea.setEditable(false);
+        textArea.setText("Current Room: General\n");
         panel2.add(textArea, BorderLayout.CENTER);
         panel2.add(panel1, BorderLayout.SOUTH);
+
+        myRooms.add("General");
+        JButton button = new JButton("General");
+        button.setOpaque(false);
+        button.setContentAreaFilled(false);
+        button.setBorderPainted(false);
+        sidePanel.add(button);
+        button.addActionListener(new ActionListener() {
+          public void actionPerformed(ActionEvent ev) {
+            textArea.setText("");
+            String thisRoom = myRooms.get(0);
+            textArea.setText("Current Room: " + thisRoom + "\n");
+          }
+        });
 
         frame.setContentPane(panel2);
 
@@ -118,10 +133,8 @@ public class ChatWindow implements Runnable {
                     textArea.setText("");
                     String thisRoom = myRooms.get(num);
                     textArea.setText("Current Room: " + thisRoom + "\n");
-                    System.out.println("Room " + thisRoom);
                   }
                 });
-                System.out.println("element " + j + ": " + myRooms.get(j) );
                 textArea.setText("");
                 textArea.setText("Current Room: " + s + "\n");
               }
@@ -137,7 +150,6 @@ public class ChatWindow implements Runnable {
       try {
         String serverMsg = "";
         while ((serverMsg = reader.readLine()) != null) {
-          System.out.println("from server: " + serverMsg);
           textArea.append(serverMsg + "\n");
         }
       } catch (Exception e) {
